@@ -1,0 +1,5 @@
+paramiko>=3.4.0
+pystray>=0.19.5
+Pillow>=10.3.0
+pywin32>=306
+pyinstaller>=6.6.0

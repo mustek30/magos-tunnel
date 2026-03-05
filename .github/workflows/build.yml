@@ -1,0 +1,45 @@
+name: Build MAGOSTunnel.exe
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:   # permite lanzar manualmente desde GitHub
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build exe
+        run: |
+          pyinstaller `
+            --onefile `
+            --noconsole `
+            --name "MAGOSTunnel" `
+            --icon "assets\icon.ico" `
+            --add-data "assets;assets" `
+            --hidden-import win32timezone `
+            --hidden-import win32service `
+            --hidden-import win32serviceutil `
+            --hidden-import win32event `
+            --hidden-import servicemanager `
+            --hidden-import pystray._win32 `
+            src\main.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MAGOSTunnel
+          path: dist\MAGOSTunnel.exe
+          retention-days: 30
