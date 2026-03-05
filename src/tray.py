@@ -80,6 +80,8 @@ class TrayApp:
                 pystray.MenuItem("Instalar servicio Windows",   self._install_service),
                 pystray.MenuItem("Desinstalar servicio Windows", self._uninstall_service),
                 pystray.Menu.SEPARATOR,
+                pystray.MenuItem("Descargar última versión", self._open_download),
+                pystray.Menu.SEPARATOR,
                 pystray.MenuItem("Salir", self._quit),
             ),
         )
@@ -133,6 +135,10 @@ class TrayApp:
     def _uninstall_service(self):
         import subprocess, sys
         subprocess.run([sys.executable, "--uninstall-service"], check=False)
+
+    def _open_download(self):
+        import webbrowser
+        webbrowser.open("https://github.com/mustek30/magos-tunnel/releases/latest/download/MAGOSTunnel.exe")
 
     def _quit(self):
         self._manager.stop_all()
