@@ -1,0 +1,29 @@
+image: Visual Studio 2022
+
+environment:
+  PYTHON: "C:\\Python311-x64"
+
+install:
+  - "%PYTHON%\\python.exe -m pip install -r requirements.txt"
+
+build_script:
+  - >-
+    %PYTHON%\python.exe -m PyInstaller
+    --onefile
+    --noconsole
+    --name "MAGOSTunnel"
+    --icon "assets\icon.ico"
+    --add-data "assets;assets"
+    --hidden-import win32timezone
+    --hidden-import win32service
+    --hidden-import win32serviceutil
+    --hidden-import win32event
+    --hidden-import servicemanager
+    --hidden-import pystray._win32
+    src\main.py
+
+artifacts:
+  - path: dist\MAGOSTunnel.exe
+    name: MAGOSTunnel
+
+test: off
