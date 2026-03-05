@@ -27,3 +27,15 @@ artifacts:
     name: MAGOSTunnel
 
 test: off
+
+deploy:
+  provider: GitHub
+  auth_token: $(GITHUB_TOKEN)
+  release: v$(appveyor_build_version)
+  description: "Build automático AppVeyor v$(appveyor_build_version)"
+  artifact: MAGOSTunnel
+  draft: false
+  prerelease: false
+  force_update: true
+  on:
+    branch: main
