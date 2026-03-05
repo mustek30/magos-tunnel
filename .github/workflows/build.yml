@@ -3,7 +3,7 @@ name: Build MAGOSTunnel.exe
 on:
   push:
     branches: [main]
-  workflow_dispatch:   # permite lanzar manualmente desde GitHub
+  workflow_dispatch:
 
 jobs:
   build:
@@ -22,20 +22,8 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Build exe
-        run: |
-          pyinstaller `
-            --onefile `
-            --noconsole `
-            --name "MAGOSTunnel" `
-            --icon "assets\icon.ico" `
-            --add-data "assets;assets" `
-            --hidden-import win32timezone `
-            --hidden-import win32service `
-            --hidden-import win32serviceutil `
-            --hidden-import win32event `
-            --hidden-import servicemanager `
-            --hidden-import pystray._win32 `
-            src\main.py
+        shell: cmd
+        run: pyinstaller --onefile --noconsole --name "MAGOSTunnel" --icon "assets\icon.ico" --add-data "assets;assets" --hidden-import win32timezone --hidden-import win32service --hidden-import win32serviceutil --hidden-import win32event --hidden-import servicemanager --hidden-import "pystray._win32" src\main.py
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
